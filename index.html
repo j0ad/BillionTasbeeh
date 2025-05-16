@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Billion Tasbeeh - مليار تسبيحة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --main-color: #27ae60;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-color: #fff;
+            --progress-color: #e74c3c;
+            --counter-color: #2c3e50;
+            --dark-mode: false;
+        }
+
+        [data-theme="dark"] {
+            --main-color: #2ecc71;
+            --secondary-color: #ecf0f1;
+            --text-color: #ecf0f1;
+            --bg-color: #2c3e50;
+            --card-color: #34495e;
+            --progress-color: #f39c12;
+            --counter-color: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+            touch-action: manipulation;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s infinite linear;
+        }
+        
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            top: 70%;
+            left: 80%;
+            width: 50px;
+            height: 50px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            animation-delay: 3s;
+        }
+        
+        .shape:nth-child(3) {
+            top: 30%;
+            left: 60%;
+            width: 45px;
+            height: 45px;
+            background-color: #2ecc71;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: 6s;
+        }
+        
+        .shape:nth-child(4) {
+            top: 80%;
+            left: 30%;
+            width: 60px;
+            height: 30px;
+            background-color: #f39c12;
+            border-radius: 15px;
+            animation-delay: 9s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 15px;
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .app-header {
+            text-align: center;
+            margin: 12px 0 20px;
+        }
+#howToUseTitle {
+  display: block;
+  position: relative;
+  opacity: 1;
+  color: var(--main-color);
+  margin: 15px 0;
+  z-index: 10;
+}
+        
+        .app-title {
+            font-size: 2.5rem;
+            color: var(--main-color);
+            margin: 0;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+        
+        .theme-btn, .lang-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .counter-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .counter-value {
+            font-size: 2.48rem;
+            font-weight: bold;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--main-color);
+            direction: ltr;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .dhikr-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 5px 0;
+            position: relative;
+        }
+        
+        .dhikr-text {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin: 20px 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0 30px;
+           
+        }
+        
+        .edit-dhikr {
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: all 0.2s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .edit-dhikr:active {
+            transform: scale(0.9);
+            color: var(--main-color);
+        }
+        
+        .main-button {
+            background: linear-gradient(135deg, var(--main-color) 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.3);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .main-button:active {
+            transform: scale(0.96);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--progress-color), #f39c12);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .settings-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: var(--card-color);
+            border-radius: 50px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            margin-top: auto;
+        }
+        
+        .settings-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            opacity: 0.8;
+            transition: all 0.2s;
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-btn:active {
+            transform: scale(0.9);
+            opacity: 1;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: var(--card-color);
+            color: var(--text-color);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalFade 0.3s;
+        }
+        
+        .welcome-modal {
+            text-align: center;
+        }
+        
+        .dhikr-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        
+        .dhikr-option {
+            padding: 12px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dhikr-option:active {
+            background-color: rgba(0,0,0,0.2);
+        }
+        
+        .dhikr-option.selected {
+            background-color: var(--main-color);
+            color: white;
+        }
+        
+        .lang-option {
+            padding: 12px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .lang-option:active {
+            background-color: rgba(0,0,0,0.2);
+        }
+        
+        .lang-option.selected {
+            background-color: var(--main-color);
+            color: white;
+        }
+        
+        .btn {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            margin: 8px 5px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-secondary {
+            background-color: #7f8c8d;
+        }
+        
+        .section-title {
+            margin: 1px 0 8px;
+            color: var(--main-color);
+            font-size: .5.rem;
+        }
+        
+        .terms-text {
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 8px;
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 8px;
+            margin: 8px 0;
+            text-align: start;
+            font-size: 0.9rem;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (min-width: 500px) {
+            .app-container {
+                max-width: 500px;
+            }
+            
+            .app-title {
+                font-size: 2.2rem;
+            }
+            
+            .counter-value {
+                font-size: 2.5rem;
+            }
+            
+            .dhikr-text {
+                font-size: 2.5rem;
+            }
+            
+            .main-button {
+                width: 140px;
+                height: 140px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (min-height: 700px) {
+            .app-title {
+                font-size: 2.2rem;
+            }
+            
+            .counter-value {
+                font-size: 3rem;
+            }
+            
+            .dhikr-text {
+                font-size: 2.8rem;
+            }
+            
+            .main-button {
+                width: 140px;
+                height: 140px;
+                font-size: 1.2rem;
+            }
+        }
+#welcomeText {
+    color: red;
+    font-size: 18px; /* يمكنك تغيير حجم الخط حسب ما تفضل */
+    font-weight: bold;
+}
+
+#welcomeText1 {
+    color: red;
+    font-size: 15px; /* يمكنك تغيير حجم الخط حسب ما تفضل */
+    font-weight: bold;
+}
+
+
+#welcomeText2 {
+    color: green;
+    font-size: 15.3px; /* يمكنك تغيير حجم الخط حسب ما تفضل */
+    font-weight: bold;
+}
+
+
+#contactText1 {
+    color: green;
+    font-size: 15.3px; /* يمكنك تغيير حجم الخط حسب ما تفضل */
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <!-- أشكال طائرة في الخلفية -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <!-- نافذة الترحيب -->
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content welcome-modal">
+            <h2 class="section-title" id="welcomeTitle">مرحباً بكم في تطبيق مليار تسبيحة</h2>
+            <p id="welcomeText">هذا التطبيق يساعدك على تسبيح الله تعالى والمقصود بالمليار الكثرة لا التقييد بالعدد لقوله تعالى</p>
+            <h3 class="section-title">شروط الاستخدام</h3>
+            <div class="terms-text">
+                <p id="termsText2">1. لا نجمع أي بيانات شخصية عن المستخدمين</p>
+                <p id="termsText3">3. جميع الإعدادات تحفظ على جهازك فقط</p>
+                <p id="termsText4">4. يمكنك إعادة التعيين في أي وقت</p>
+                <p id="termsText5">5. التطبيق للأغراض الدينية فقط</p>
+            </div>
+            
+            <button class="btn" id="acceptBtn">أوافق على الشروط</button>
+            <button class="btn btn-secondary" id="declineBtn">رفض</button>
+        </div>
+    </div>
+    
+    <!-- التطبيق الرئيسي -->
+    <div class="app-container">
+        <!-- عنوان التطبيق -->
+        <div class="app-header">
+            <h1 class="app-title" id="appTitle">مليار تسبيحة</h1>
+        </div>
+        
+        <!-- شريط الأدوات العلوي -->
+        <div class="toolbar">
+            <button class="theme-btn" id="themeBtn">🌙</button>
+            <button class="lang-btn" id="langBtn">🌐</button>
+        </div>
+        
+        <!-- منطقة العداد -->
+        <div class="counter-container">
+            <div class="counter-value" id="counter">1,000,000,000</div>
+        </div>
+        
+        <!-- منطقة الذكر -->
+        <div class="dhikr-section">
+            <div class="dhikr-text">
+                <span class="edit-dhikr" id="editDhikr">✏️</span>
+                <span id="currentDhikr">سُبْحَانَ اللَّهِ</span>
+            </div>
+            
+            <button class="main-button" id="mainButton">اضغط للذكر</button>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <!-- شريط الإعدادات -->
+        <div class="settings-bar">
+            <button class="settings-btn" id="soundBtn">🔊</button>
+            <button class="settings-btn" id="vibrationBtn">📳</button>
+            <button class="settings-btn" id="resetBtn">🔄</button>
+            <button class="settings-btn" id="infoBtn">ℹ️</button>
+        </div>
+    </div>
+    
+    <!-- نافذة اختيار الذكر -->
+    <div class="modal" id="dhikrModal">
+        <div class="modal-content">
+            <h2 class="section-title" id="chooseDhikrTitle">اختر الذكر</h2>
+            <div class="dhikr-options">
+                <!-- Dhikr options will be populated by JavaScript -->
+            </div>
+            <div style="margin-top: 15px; margin-bottom: 10px;">
+                <input type="text" id="customDhikrInput" placeholder="أدخل الذكر هنا..." style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 10px; font-family: 'Tajawal', sans-serif;">
+                <button class="btn" id="addCustomDhikrBtn" style="width: 100%;">إضافة ذكر مخصص</button>
+            </div>
+            <button class="btn" id="closeDhikrModalBtn" style="width: 100%;">إغلاق</button>
+        </div>
+    </div>
+    
+    <!-- نافذة اللغة -->
+    <div class="modal" id="langModal">
+        <div class="modal-content">
+            <h2 class="section-title" id="chooseLangTitle">اختر اللغة</h2>
+            <div class="dhikr-options">
+                <div class="lang-option selected" data-lang="ar">العربية</div>
+                <div class="lang-option" data-lang="en">English</div>
+            </div>
+            <button class="btn" id="closeLangBtn" style="width: 100%; margin-top: 15px;">إغلاق</button>
+        </div>
+    </div>
+    
+    <!-- نافذة المعلومات -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <h3 class="section-title" <h3 class="section-title" id="termsTitle">مليار تسبيحة</h3>
+            <p id="welcomeText1"> هذا التطبيق يساعدك على تسبيح الله تعالى والمقصود بالمليار الكثرة لا التقييد بالعدد لقوله تعالى</p>
+<p id="welcomeText2"> (الذاكرين اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ أَعَدَّ اللَّهُ لَهُم مَّغْفِرَةً وَأَجْرًا عَظِيمًا)</p>
+            <h3 class="section-title" <h3 class="section-title" id="termsTitle">شروط الاستخدام</h3>
+            <p id="usageText1">1. اضغط على الزر الرئيسي لكل تسبيحة</p>
+            <p id="usageText2">2. اضغط على ✏️  لتغيير الذكر</p>
+            <p id="usageText3">3. استخدم الأزرار السفلية للتحكم بالإعدادات</p>
+            <p id="usageText4">4. عند الانتهاء من المليار، سيتم إعادة العداد تلقائياً</p>
+            
+            <h3 class="section-title" <h3 class="section-title" id="termsTitle">سياسة الخصوصية</h3>
+            <p id="privacyText1">- لا نجمع أي بيانات شخصية</p>
+            <p id="privacyText2">- جميع الإعدادات تحفظ على جهازك فقط</p>
+            <p id="privacyText3">- لا نستخدم أي أدوات تتبع</p>
+            
+            <h3 class="section-title" <h3 class="section-title" id="termsTitle">تواصل معنا</h3>
+            <p id="contactText1">للاقتراحات أو الاستفسارات: BillionTasbeeh@proton.me
+           
+            <button class="btn" id="closeInfoBtn" style="width: 100%; margin-top: 15px;">إغلاق</button>
+        </div>
+    </div>
+    
+    <!-- أصوات التسبيح -->
+    <audio id="clickSound" preload="auto">
+        <source src="https://s19.aconvert.com/convert/p3r68-cdx67/cvqxl-j0s5j.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="resetSound" preload="auto">
+        <source src="https://s31.aconvert.com/convert/p3r68-cdx67/gf3qn-rb3gr.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="completeSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // العناصر الرئيسية
+            const counterElement = document.getElementById('counter');
+            const mainButton = document.getElementById('mainButton');
+            const currentDhikrElement = document.getElementById('currentDhikr');
+            const progressBar = document.getElementById('progressBar');
+            
+            // عناصر الصوت
+            const clickSound = document.getElementById('clickSound');
+            const resetSound = document.getElementById('resetSound');
+            const completeSound = document.getElementById('completeSound');
+            
+            // عناصر النوافذ
+            const welcomeModal = document.getElementById('welcomeModal');
+            const acceptBtn = document.getElementById('acceptBtn');
+            const declineBtn = document.getElementById('declineBtn');
+            
+            const dhikrModal = document.getElementById('dhikrModal');
+            const customDhikrInput = document.getElementById('customDhikrInput');
+            const addCustomDhikrBtn = document.getElementById('addCustomDhikrBtn');
+            const dhikrOptionsContainer = dhikrModal.querySelector('.dhikr-options');
+            const langModal = document.getElementById('langModal');
+            const infoModal = document.getElementById('infoModal');
+            
+            // أزرار الإعدادات
+            const soundBtn = document.getElementById('soundBtn');
+            const vibrationBtn = document.getElementById('vibrationBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const infoBtn = document.getElementById('infoBtn');
+            const editDhikrBtn = document.getElementById('editDhikr');
+            const themeBtn = document.getElementById('themeBtn');
+            const langBtn = document.getElementById('langBtn');
+            
+            // عناصر النصوص للترجمة
+            const textElements = {
+                appTitle: document.getElementById('appTitle'),
+                mainButton: document.getElementById('mainButton'),
+                welcomeTitle: document.getElementById('welcomeTitle'),
+                welcomeText: document.getElementById('welcomeText'),
+                termsText1: document.getElementById('termsText1'),
+                termsText2: document.getElementById('termsText2'),
+                termsText3: document.getElementById('termsText3'),
+                termsText4: document.getElementById('termsText4'),
+                termsText5: document.getElementById('termsText5'),
+                acceptBtn: document.getElementById('acceptBtn'),
+                declineBtn: document.getElementById('declineBtn'),
+                chooseDhikrTitle: document.getElementById('chooseDhikrTitle'),
+                chooseLangTitle: document.getElementById('chooseLangTitle'),
+                appInfoTitle: document.getElementById('appInfoTitle'),
+                howToUseTitle: document.getElementById('howToUseTitle'),
+                usageText1: document.getElementById('usageText1'),
+                usageText2: document.getElementById('usageText2'),
+                usageText3: document.getElementById('usageText3'),
+                usageText4: document.getElementById('usageText4'),
+                privacyTitle: document.getElementById('privacyTitle'),
+                privacyText1: document.getElementById('privacyText1'),
+                privacyText2: document.getElementById('privacyText2'),
+                privacyText3: document.getElementById('privacyText3'),
+                contactTitle: document.getElementById('contactTitle'),
+                contactText1: document.getElementById('contactText'),
+                closeButtons: document.querySelectorAll('.btn:not(#acceptBtn):not(#declineBtn)')
+            };
+            
+            // إعدادات التطبيق
+            const appSettings = {
+                count: 1000000000,
+                soundEnabled: true,
+                vibrationEnabled: true,
+                darkMode: false,
+                language: 'ar',
+                dhikr: "سُبْحَانَ اللَّهِ",
+                dhikrList: [
+                    "سُبْحَانَ اللَّهِ",
+                    "الْحَمْدُ لِلَّهِ", 
+                    "اللَّهُ أَكْبَرُ",
+                    "لَا إِلَهَ إِلَّا اللَّهُ",
+                    "أَسْتَغْفِرُ اللَّهَ"
+                ],translations: {
+                    ar: {
+                        appTitle: "مليار تسبيحة",
+                        mainButton: "اضغط للذكر",
+                        welcomeTitle: "مرحباً بكم في تطبيق مليار تسبيحة",
+                        welcomeText: "هذا التطبيق يساعدك على تسبيح الله تعالى والمقصود بالمليار الكثرة لا التقييد بالعدد لقوله تعالى (الذاكرين اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ أَعَدَّ اللَّهُ لَهُم مَّغْفِرَةً وَأَجْرًا عَظِيمًا) فوجب التنبيه  ",
+                        termsText1: "1. هذا التطبيق مجاني ولا يهدف للربح",
+                        termsText2: "2. لا نجمع أي بيانات شخصية عن المستخدمين",
+                        termsText3: "3. جميع الإعدادات تحفظ على جهازك فقط",
+                        termsText4: "4. يمكنك إعادة التعيين في أي وقت",
+                        termsText5: "5. التطبيق للأغراض الدينية فقط",
+                        acceptBtn: "أوافق على الشروط",
+                        declineBtn: "رفض",
+                        chooseDhikr: "اختر الذكر",
+                        addCustomDhikrPlaceholder: "أدخل الذكر هنا...",
+                        addCustomDhikrBtn: "إضافة ذكر مخصص",
+                        chooseLang: "اختر اللغة",
+                        appInfo: "مليار تسبيحة",
+                        howToUse: "طريقة الاستخدام",
+                        usageText1: "1. اضغط على الزر الرئيسي لكل تسبيحة",
+                        usageText2: "2. اضغط على ✏️ لتغيير الذكر",
+                        usageText3: "3. استخدم الأزرار السفلية للتحكم بالإعدادات",
+                        usageText4: "4. عند الانتهاء من المليار، سيتم إعادة العداد تلقائياً",
+                        privacy: "سياسة الخصوصية",
+                        privacyText1: "- لا نجمع أي بيانات شخصية",
+                        privacyText2: "- جميع الإعدادات تحفظ على جهازك فقط",
+                        privacyText3: "- لا نستخدم أي أدوات تتبع",
+                        contact: "تواصل معنا",
+                        contactText: "للاقتراحات أو الاستفسارات: BillionTasbeeh@proton.me",
+                        close: "إغلاق",
+                        resetConfirm: "هل تريد إعادة العداد إلى مليار؟",
+                        congrats: "مبروك! لقد أكملت مليار تسبيحة!"
+                    },
+                    en: {
+                        appTitle: "Billion Tasbeeh",
+                        mainButton: "Press for Dhikr",
+                        welcomeTitle: "Welcome to Billion Tasbeeh",
+                        welcomeText: "This app helps you remember Allah by counting your dhikr until you reach one billion",
+                        termsText1: "1. This app is free and not for profit",
+                        termsText2: "2. We don't collect any personal data",
+                        termsText3: "3. All settings are saved on your device only",
+                        termsText4: "4. You can reset at any time",
+                        termsText5: "5. The app is for religious purposes only",
+                        acceptBtn: "I Accept the Terms",
+                        declineBtn: "Decline",
+                        chooseDhikr: "Choose Dhikr",
+                        addCustomDhikrPlaceholder: "Enter custom dhikr...",
+                        addCustomDhikrBtn: "Add Custom Dhikr",
+                        chooseLang: "Choose Language",
+                        appInfo: "Billion Tasbeeh",
+                        howToUse: "How to Use",
+                        usageText1: "1. Press the main button for each dhikr",
+                        usageText2: "2. Press ✏️ to change dhikr",
+                        usageText3: "3. Use bottom buttons for settings",
+                        usageText4: "4. When you reach one billion, counter will reset automatically",
+                        privacy: "Privacy Policy",
+                        privacyText1: "- We don't collect personal data",
+                        privacyText2: "- All settings saved on your device only",
+                        privacyText3: "- We don't use any tracking tools",
+                        contact: "Contact Us",
+                        contactText1: "For suggestions or inquiries: BillionTasbeeh@proton.me",
+                        close: "Close",
+                        resetConfirm: "Reset counter to one billion?",
+                        congrats: "Congratulations! You've completed one billion dhikr!"
+                    }
+                },
+                welcomeShown: false
+            };
+            
+            // تحميل الإعدادات المحفوظة
+            function loadSettings() {
+                const savedSettings = localStorage.getItem('tasbeehSettings');
+                if(savedSettings) {
+                    const settings = JSON.parse(savedSettings);
+                    Object.assign(appSettings, settings);
+                }
+                
+                // تطبيق الإعدادات
+                updateCounter();
+                updateDhikrDisplay();
+                updateSettingsButtons();
+                applyTheme();
+                applyLanguage();
+                
+                // عرض نافذة الترحيب إذا لم تظهر من قبل
+                if(!appSettings.welcomeShown) {
+                    welcomeModal.style.display = 'flex';
+                }
+            }
+            
+            // حفظ الإعدادات
+            function saveSettings() {
+                localStorage.setItem('tasbeehSettings', JSON.stringify(appSettings));
+            }
+            
+            // تحديث العداد
+            function updateCounter() {
+                const formattedCount = appSettings.count.toLocaleString();
+                counterElement.textContent = formattedCount;
+                const progress = ((1000000000 - appSettings.count) / 1000000000) * 100;
+                progressBar.style.width = progress + '%';
+                
+                // تغيير لون الرقم عند نقاط معينة
+                let counterColor;
+                if (appSettings.count <= 0) {
+                    counterColor = '#27ae60';
+                    showCompletionMessage();
+                } else if (appSettings.count <= 100000000) {
+                    counterColor = '#e74c3c';
+                } else if (appSettings.count <= 500000000) {
+                    counterColor = '#f39c12';
+                } else if (appSettings.count <= 900000000) {
+                    counterColor = '#3498db';
+                } else {
+                    counterColor = appSettings.darkMode ? '#ecf0f1' : '#2c3e50';
+                }
+                counterElement.style.color = counterColor;
+            }
+            
+            // عرض رسالة الإكمال
+            function showCompletionMessage() {
+                if(appSettings.soundEnabled) {
+                    completeSound.currentTime = 0;
+                    completeSound.play();
+                }
+                
+                alert(appSettings.translations[appSettings.language].congrats);
+                
+                // إعادة التعيين التلقائي
+                setTimeout(() => {
+                    appSettings.count = 1000000000;
+                    updateCounter();
+                    saveSettings();
+                }, 2000);
+            }
+            
+            // تحديث عرض الذكر
+            function updateDhikrDisplay() {
+                currentDhikrElement.textContent = appSettings.dhikr;
+                
+                // مسح الخيارات الحالية
+                dhikrOptionsContainer.innerHTML = '';
+                
+                // إنشاء وإضافة خيارات الذكر من القائمة
+                appSettings.dhikrList.forEach(dhikrValue => {
+                    const option = document.createElement('div');
+                    option.classList.add('dhikr-option');
+                    option.dataset.dhikr = dhikrValue;
+                    option.textContent = dhikrValue;
+                    if (dhikrValue === appSettings.dhikr) {
+                        option.classList.add('selected');
+                    }
+                    option.addEventListener('click', function() {
+                        selectDhikr(this.dataset.dhikr);
+                        dhikrModal.style.display = 'none';
+                    });
+                    dhikrOptionsContainer.appendChild(option);
+                });
+            }
+            
+            // تطبيق اللغة
+            function applyLanguage() {
+                const lang = appSettings.translations[appSettings.language];
+                
+                // تحديث جميع النصوص
+                for (const [key, element] of Object.entries(textElements)) {
+                    if (Array.isArray(element)) {
+                        element.forEach(el => {
+                            if(el) el.textContent = lang[key];
+                        });
+                    } else if (element) {
+                        element.innerHTML = lang[key]; // Use innerHTML for elements that might contain <br>
+                    }
+                }
+                // Translate dynamic elements
+                if (customDhikrInput) {
+                    customDhikrInput.placeholder = lang.addCustomDhikrPlaceholder || "أدخل الذكر هنا...";
+                }
+                if (addCustomDhikrBtn) {
+                    addCustomDhikrBtn.textContent = lang.addCustomDhikrBtn || "إضافة ذكر مخصص";
+                }
+                if (document.getElementById('closeDhikrModalBtn')) {
+                    document.getElementById('closeDhikrModalBtn').textContent = lang.close || "إغلاق";
+                }
+                 if (document.getElementById('closeLangBtn')) {
+                    document.getElementById('closeLangBtn').textContent = lang.close || "إغلاق";
+                }
+                if (document.getElementById('closeInfoBtn')) {
+                    document.getElementById('closeInfoBtn').textContent = lang.close || "إغلاق";
+                }
+
+
+                // تحديث خيارات اللغة المحددة
+                document.querySelectorAll('.lang-option').forEach(option => {
+                    option.classList.toggle('selected', option.dataset.lang === appSettings.language);
+                });
+            }
+            
+            // تطبيق الوضع الليلي/النهاري
+            function applyTheme() {
+                if(appSettings.darkMode) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    themeBtn.textContent = '☀️';
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    themeBtn.textContent = '🌙';
+                }
+                updateCounter();
+            }
+            
+            // تشغيل صوت النقرة
+            function playClickSound() {
+                if(appSettings.soundEnabled) {
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(e => console.log("Cannot play sound:", e));
+                }
+            }
+            
+            // تفعيل/تعطيل الصوت
+            function toggleSound() {
+                appSettings.soundEnabled = !appSettings.soundEnabled;
+                updateSettingsButtons();
+                playClickSound();
+                saveSettings();
+            }
+            
+            // تفعيل/تعطيل الاهتزاز
+            function toggleVibration() {
+                appSettings.vibrationEnabled = !appSettings.vibrationEnabled;
+                updateSettingsButtons();
+                if (appSettings.vibrationEnabled && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+                saveSettings();
+            }
+            
+            // تبديل الوضع الليلي/النهاري
+            function toggleTheme() {
+                appSettings.darkMode = !appSettings.darkMode;
+                applyTheme();
+                saveSettings();
+                playClickSound();
+            }
+            
+            // تغيير اللغة
+            function changeLanguage(lang) {
+                appSettings.language = lang;
+                applyLanguage();
+                saveSettings();
+                playClickSound();
+            }
+            
+            // تحديث أزرار الإعدادات
+            function updateSettingsButtons() {
+                soundBtn.textContent = appSettings.soundEnabled ? '🔊' : '🔇';
+                vibrationBtn.textContent = appSettings.vibrationEnabled ? '📳' : '📴';
+            }
+            
+            // إعادة التعيين
+            function resetCounter() {
+                const confirmText = appSettings.translations[appSettings.language].resetConfirm;
+                if(confirm(confirmText)) {
+                    appSettings.count = 1000000000;
+                    updateCounter();
+                    if (appSettings.vibrationEnabled && navigator.vibrate) {
+                        navigator.vibrate(100);
+                    }
+                    if(appSettings.soundEnabled) {
+                        resetSound.currentTime = 0;
+                        resetSound.play();
+                    }
+                    saveSettings();
+                }
+            }
+            
+            // اختيار الذكر
+            function selectDhikr(dhikr) {
+                appSettings.dhikr = dhikr;
+                updateDhikrDisplay();
+                saveSettings();
+                playClickSound();
+            }
+            
+            // أحداث الأزرار
+            mainButton.addEventListener("click", function() {
+                if (appSettings.count > 0) {
+                    appSettings.count--;
+                    updateCounter();
+                    playClickSound();
+                    
+         
+                    // اهتزاز الجهاز إذا كان مفعلاً
+                    if (appSettings.vibrationEnabled && navigator.vibrate) {
+                        navigator.vibrate(30);
+                    }
+                    
+                    saveSettings();
+                }
+            });
+
+            if (addCustomDhikrBtn) {
+                addCustomDhikrBtn.addEventListener("click", function() {
+                    const newDhikr = customDhikrInput.value.trim();
+                    if (newDhikr && !appSettings.dhikrList.includes(newDhikr)) {
+                        appSettings.dhikrList.push(newDhikr);
+                        selectDhikr(newDhikr); // Optionally select the new Dhikr
+                        updateDhikrDisplay(); // Refresh the list in the modal
+                        saveSettings();
+                        customDhikrInput.value = ""; // Clear input
+                        // dhikrModal.style.display = "none"; // Optionally close modal after adding
+                    } else if (newDhikr && appSettings.dhikrList.includes(newDhikr)){
+                        alert(appSettings.language === "ar" ? "الذكر موجود بالفعل!" : "Dhikr already exists!");
+                    } else {
+                        alert(appSettings.language === "ar" ? "الرجاء إدخال ذكر صحيح." : "Please enter a valid dhikr.");
+                    }
+                    playClickSound();
+                });
+            }
+            
+            soundBtn.addEventListener("click", toggleSound);
+            vibrationBtn.addEventListener("click", toggleVibration);
+            resetBtn.addEventListener("click", resetCounter);
+            infoBtn.addEventListener("click", function() {
+                infoModal.style.display = "flex";
+                playClickSound();
+            });
+            
+            editDhikrBtn.addEventListener("click", function() {
+                updateDhikrDisplay(); // Ensure list is up-to-date when opening
+                dhikrModal.style.display = "flex";
+                playClickSound();
+            });
+            
+            themeBtn.addEventListener("click", toggleTheme);
+            langBtn.addEventListener("click", function() {
+                langModal.style.display = "flex";
+                playClickSound();
+            });
+            
+            // أحداث نافذة الترحيب
+            acceptBtn.addEventListener("click", function() {
+                appSettings.welcomeShown = true;
+                saveSettings();
+                welcomeModal.style.display = "none";
+                playClickSound();
+            });
+            
+            declineBtn.addEventListener("click", function() {
+                alert(appSettings.language === "ar" ? 
+                    "عذراً، يجب الموافقة على الشروط لاستخدام التطبيق" : 
+                    "Sorry, you must accept the terms to use the app");
+                playClickSound();
+            });
+            
+            // أحداث النوافذ المنبثقة (أزرار الإغلاق العامة)
+            // Note: The close button for dhikrModal was changed to closeDhikrModalBtn
+            document.querySelectorAll(".modal .btn:not(#acceptBtn):not(#declineBtn):not(#addCustomDhikrBtn)").forEach(btn => {
+                // Special handling for the new close button in Dhikr modal
+                if (btn.id === "closeDhikrModalBtn" || btn.id === "closeLangBtn" || btn.id === "closeInfoBtn") {
+                    btn.addEventListener("click", function() {
+                        this.closest(".modal").style.display = "none";
+                        playClickSound();
+                    });
+                }
+            });
+            
+            // Event listeners for dynamically created dhikr options are now set in updateDhikrDisplay
+            
+            document.querySelectorAll(".lang-option").forEach(option => {
+                option.addEventListener("click", function() {
+                    changeLanguage(this.dataset.lang);
+                    langModal.style.display = "none";
+                });
+            });
+            
+            // التهيئة الأولية
+            loadSettings();
+            
+            // محاولة تحميل الصوت عند البدء
+            document.addEventListener("click", function initAudio() {
+                playClickSound();
+                document.removeEventListener("click", initAudio);
+            }, { once: true });
+        });
+    </script>
+</body>
+</html>
